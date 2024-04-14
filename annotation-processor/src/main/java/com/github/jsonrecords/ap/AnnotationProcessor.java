@@ -1,10 +1,12 @@
 package com.github.jsonrecords.ap;
 
+import com.google.auto.service.AutoService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UncheckedIOException;
 import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
@@ -23,6 +25,7 @@ import javax.tools.JavaFileObject;
  */
 @SupportedAnnotationTypes("com.github.jsonrecords.JsonRecordsMapper")
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
+@AutoService(Processor.class)
 public final class AnnotationProcessor extends AbstractProcessor {
 
   @Override
