@@ -12,7 +12,6 @@ import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.Name;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
@@ -61,19 +60,19 @@ public final class AnnotationProcessor extends AbstractProcessor {
   }
 
   private void tryGenerateClass(final TypeElement element) {
-    final Name interfaceName = element.getQualifiedName();
-    final String className = interfaceName + "Impl";
+    final String interfaceFqcn = "" + element.getQualifiedName();
+    final String classFqcn = interfaceFqcn + "Impl";
 
     final JavaFileObject fileObject;
     try {
-      fileObject = processingEnv.getFiler().createSourceFile(className);
+      fileObject = processingEnv.getFiler().createSourceFile(classFqcn);
     } catch (final IOException e) {
       throw new UncheckedIOException(e);
     }
 
     try (final var writer = new PrintWriter(fileObject.openWriter())) {
-      writePackage(className, writer);
-      writeClassName(interfaceName, className, writer);
+      writePackage(classFqcn, writer);
+      writeClassName(interfaceFqcn, classFqcn, writer);
       writer.println('}');
     } catch (final IOException e) {
       throw new UncheckedIOException(e);
@@ -91,10 +90,16 @@ public final class AnnotationProcessor extends AbstractProcessor {
   }
 
   private void writeClassName(
-      final Name interfaceName,
-      final String className,
+      final String interfaceFqcn,
+      final String classFqcn,
       final PrintWriter writer
   ) {
-    writer.println("public class " + className + " implements " + interfaceName + " {");
+    writer.println(
+        "public class " + simpleName(classFqcn) + " implements " + simpleName(interfaceFqcn) + " {"
+    );
+  }
+
+  private static String simpleName(final String fqcn) {
+    return fqcn.contains(".") ? fqcn.substring(fqcn.lastIndexOf(".") + 1) : fqcn;
   }
 }
