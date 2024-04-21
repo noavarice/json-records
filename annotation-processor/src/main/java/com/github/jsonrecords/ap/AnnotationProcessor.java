@@ -23,7 +23,7 @@ import javax.tools.JavaFileObject;
  * @since 1.0.0
  */
 @SupportedAnnotationTypes("com.github.jsonrecords.JsonRecordsMapper")
-@SupportedSourceVersion(SourceVersion.RELEASE_17)
+@SupportedSourceVersion(SourceVersion.RELEASE_21)
 @AutoService(Processor.class)
 public final class AnnotationProcessor extends AbstractProcessor {
 

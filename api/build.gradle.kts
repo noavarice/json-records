@@ -1,5 +1,11 @@
 plugins {
-  java
+  `java-library`
+}
+
+java {
+  toolchain {
+    version = JavaLanguageVersion.of(21)
+  }
 }
 
 group = "com.github.jsonrecords"
